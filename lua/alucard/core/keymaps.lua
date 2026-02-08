@@ -28,6 +28,23 @@ vim.keymap.set("n", "<leader>tn", "<cmd>tabn<CR>", { desc = "go to next tab" })
 vim.keymap.set("n", "<leader>tp", "<cmd>tabp<CR>", { desc = "go to previous tab" })
 vim.keymap.set("n", "<leader>tf", "<cmd>tabnew %<CR>", { desc = "open current file in new tab" })
 
+vim.keymap.set('n', '<leader>bn', ':bnext<CR>', { desc = 'Next buffer' })
+vim.keymap.set('n', '<leader>bp', ':bprevious<CR>', { desc = 'Prev buffer' })
+vim.keymap.set('n', '<leader>q', function()
+    local bufnr = vim.api.nvim_get_current_buf()
+    if vim.api.nvim_get_option_value("modified", { buf = bufnr }) then
+        vim.notify("Buffer is modified! Save it or use <leader>Q to force close.", vim.log.levels.WARN)
+        return
+    end
+    vim.cmd("bprevious")
+    vim.cmd("confirm bdelete " .. bufnr)
+end, { desc = 'Gracefully Close Buffer' })
+vim.keymap.set('n', '<leader>Q', function()
+    local bufnr = vim.api.nvim_get_current_buf()
+    vim.cmd("bprevious")
+    vim.cmd("bdelete! " .. bufnr)
+end, { desc = 'FORCE Close Buffer (Discard changes)' })
+
 vim.keymap.set("n", "<leader>sv", "<C-w>v", { desc = "split window vertically" })
 vim.keymap.set("n", "<leader>sh", "<C-w>s", { desc = "split window horizontally" })
 vim.keymap.set("n", "<leader>se", "<C-w>=", { desc = "make splits equal size" })
