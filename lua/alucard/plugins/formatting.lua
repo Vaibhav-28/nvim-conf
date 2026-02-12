@@ -30,6 +30,7 @@ return {
         liquid = { "prettier" },
         lua = { "stylua" },
         python = { "black" },
+        go = { "gofumpt" },
         markdown = { "prettier", "markdown-toc" },
         -- ["markdown.mdx"] = { "prettier", "markdownlint", "markdown-toc" },
       },
